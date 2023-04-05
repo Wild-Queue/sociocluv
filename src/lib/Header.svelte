@@ -9,6 +9,7 @@
             <a href="/elonmusk">Profile</a>
             <a href="/home">Feed</a>
             <a href="/elonmusk/status/4">Single Tweet</a>
+            <a href="/about">About</a>
         </nav>
     </div>
 </Card>
