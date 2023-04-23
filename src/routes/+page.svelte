@@ -1,24 +1,19 @@
-<script>
-    import Form from '$lib/Form.svelte';
-    import Post from '$lib/Post.svelte';
-    import Header from "$lib/Header.svelte";
+<script lang="ts">
+    import RegisterForm from '$lib/RegisterForm.svelte';
+    import LoginForm from '$lib/LoginForm.svelte';
+    
+    
+    let needRegistration:boolean = false;
 </script>
 
-<Header/>
-<div id="holder">
+
 <div id="form-wrap">
-    <Form />
-</div>
-<div id="feed-container">
-<div id="post-wrap">
-    <Form />
-    <Post />
-    <Post />
-    <Post />
-    <Post />
-    <Post />
-</div>
-</div>
+    {#if needRegistration}
+    <RegisterForm bind:register={needRegistration}/>
+    {/if}
+    {#if !needRegistration}
+    <LoginForm bind:login={needRegistration} />
+    {/if}
 </div>
 
 <style>

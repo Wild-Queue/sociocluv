@@ -1,6 +1,5 @@
 <script lang='ts'>
     import Post from "$lib/Post.svelte";
-import Header from "$lib/Header.svelte";
 </script>
 
 
@@ -9,7 +8,7 @@ import Header from "$lib/Header.svelte";
 	<meta name="description" content="tweet" />
 </svelte:head>
 
-<Header/>
+
 <div>
     <Post/>
 </div>
