@@ -1,38 +1,50 @@
 <script lang="ts">
-	let username: string;
-	let password: string;
-	let email: string;
+	let username: string = "";
+	let password: string = "";
+	let errorMessage:string = "Handle value of errorMessage!";
 
-	function SignUp(e: SubmitEvent) {
-		console.log(username, password, email);
-		username = '';
-		password = '';
-		email = '';
-	}
+	export let login:boolean;
+
+	function loginUser() {
+		console.log("LoginFunction");
+    }
+
+	function switchToRegistration() {
+		console.log("CreateAccount");
+		login = true;
+    }
 </script>
 
 <!-- Имя, пароль, почта?, дата рождения-->
 <div id="registration">
-	<form on:submit|preventDefault={SignUp}>
+	<form>
 		<div id="content-wrapper">
-			<div id=registration-text>Registration</div>
+			<div id="registration-text">Login</div>
 			<div class="field">
 				<input type="username" bind:value={username} id="username" placeholder="Username" />
 			</div>
-			<div class="field">
+			<!--<div class="field">
 				<input type="email" bind:value={email} id="email" placeholder="Email" />
-			</div>
+			</div>-->
 			<div class="field">
 				<input type="password" bind:value={password} id="password" placeholder="Password" />
 			</div>
-			<div id="button-wrapper">
-				<button type="submit"> Sign Up</button>
+			<div id="error-text">{errorMessage}</div>
+			<div>
+				Don't have an account?
+				<button on:click={switchToRegistration}>Create account</button>
+				<div id="button-wrapper">
+					<button on:click={loginUser}>Log In</button>
+				</div>
 			</div>
 		</div>
 	</form>
 </div>
 
 <style>
+	#error-text{
+		color:red;
+	}
 	#registration-text{
 		font-size: 31px;
 		font-weight: bold;
@@ -42,12 +54,16 @@
 	#content-wrapper{
 		padding: 0px 80px 10px 80px;	 
 	}
+	button{
+		margin-left:0px;
+		padding-left:0px;
+	}
 	#button-wrapper{
 		margin-left: auto; 
 		margin-right: 0;
 		inline-size: max-content;
-		text-align: right;
-		padding: 20px 0px 20px 0px;
+		text-align: left;
+		padding: 10px 0px 15px 0px;
 		
 	}
 	.field{

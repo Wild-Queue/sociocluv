@@ -2,7 +2,6 @@
 	export let data;
 	const image_src = "https://pbs.twimg.com/profile_images/1590968738358079488/IY9Gx6Ok_400x400.jpg";
 	import Post from '$lib/Post.svelte';
-	import Header from '$lib/Header.svelte';
 	import {page } from '$app/stores'
 	$page.params
 </script>
@@ -13,7 +12,7 @@
 </svelte:head>
 
 <div id="top-container" >
-<Header/>
+
 <div id="post-author-photo" style="margin-top:30px;">
 	<img id="photo" src={image_src} alt="profile avatar" style="width:100%;" />
 </div>

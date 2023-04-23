@@ -6,7 +6,7 @@
 </script>
 
 <header>
-
+	<Header />
 </header>
 
 <main>

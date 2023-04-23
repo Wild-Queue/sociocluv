@@ -5,7 +5,7 @@
 <Card>
     <div slot="card-body">
         <nav>
-            <a href="/">Register</a>
+            <a href="/">Log In</a>
             <a href="/elonmusk">Profile</a>
             <a href="/home">Feed</a>
             <a href="/elonmusk/status/4">Single Tweet</a>
