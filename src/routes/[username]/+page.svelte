@@ -1,9 +1,8 @@
 <script lang="ts">
-	export let data;
 	const image_src = 'https://cdn-icons-png.flaticon.com/512/168/168726.png';
 	import Post from '$lib/Post.svelte';
 	import { page } from '$app/stores';
-	$page.params;
+	let alias_from_url = $page.params.username;
 	import { io } from 'socket.io-client';
 	
 	interface Post{
@@ -150,8 +149,8 @@ line-height: 20px; padding:5px 5px 5px 5px;"
 		<span>{temp2}</span>
 	{/if}
 
-	<a href="/{data.username}">
-		<span>@{data.username}</span>
+	<a href="/{alias_from_url}">
+		<span>@{alias_from_url}</span>
 	</a>
 
 	{#if editMode}
