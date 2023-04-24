@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { error } from "@sveltejs/kit";
 	import { io } from 'socket.io-client';
+	import { redirect } from '@sveltejs/kit';
+
 
 	const socket = io('http://localhost:5050/');
 
@@ -8,6 +10,7 @@
 	let password: string = "";
 	let email: string = "";
 	let errorMessage:string = "Handle value of errorMessage!";
+	let authorized:boolean = false;
 
 	export let register:boolean;
 
@@ -29,11 +32,10 @@
 			errorMessage = "Too simple password! Password should contain at least one [A-Z], [a-z] and [0-9].";
 		}else{
 			errorMessage = "";
+			socket.emit('sign-up', {login: username, password: password, email: email})
 		}
-		console.log(username);
-		console.log(password);
-		console.log(email);
-		socket.emit('sign-up', {login: username, password: password, email: email})
+		
+		
 		//Existing username! Username should be unique!
 		socket.on('sign-up-result', (msg) => {
 			if (msg['result'] === false && msg['userID'] === -1){
@@ -41,13 +43,19 @@
 			}
 			else if (msg['result'] === false && msg['userID'] === -1){
 				errorMessage = "Insert into database went wrong, try again";
-			}
-			else{
+			}else{
 				console.log("Registration success");
-				let userID:number = msg['userID']				
+				let userID:number = msg['userID']
+
+				sessionStorage.setItem('authorized', 'true');
+				window.location.href = '/home';
 			}
-		});
+		});errorMessage
 	}
+
+	
+
+	
 
 	
 	function switchToLogin() {
@@ -55,7 +63,7 @@
 		register = false;
     }
 </script>
-
+{#if !authorized}
 <!-- Имя, пароль, почта?, дата рождения-->
 <div id="registration">
 	<form>
@@ -81,7 +89,7 @@
 		</div>
 	</form>
 </div>
-
+{/if}
 <style>
 	#error-text{
 		color:red;

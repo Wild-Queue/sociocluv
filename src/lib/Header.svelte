@@ -1,15 +1,27 @@
 <script lang="ts">
+    import { onMount } from 'svelte';
     import Card from "$lib/Card.svelte"
+    let showHeader = false;
+    onMount(() => {
+        if(sessionStorage.getItem('authorized')=="true"){
+            showHeader=true;
+        }
+	});
+
 </script>
 
 <Card>
     <div slot="card-body">
         <nav>
+            {#if !showHeader}
             <a href="/">Log In</a>
+            {/if}
+            {#if showHeader}
             <a href="/elonmusk">Profile</a>
             <a href="/home">Feed</a>
             <a href="/elonmusk/status/4">Single Tweet</a>
             <a href="/about">About</a>
+            {/if}
         </nav>
     </div>
 </Card>

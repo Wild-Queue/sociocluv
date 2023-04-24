@@ -16,12 +16,13 @@
 			errorMessage = "Empty password!";
 		}else{
 			errorMessage = "";
+			socket.emit('sign-in', {login: username, password: password})
 		}
 		console.log(username);
 		console.log(password);
 
 		//Wrong password or username
-		socket.emit('sign-in', {login: username, password: password})
+		
 		//Existing username! Username should be unique!
 		socket.on('sign-in-result', (msg) => {
 			if (msg['result'] == false){
@@ -29,7 +30,10 @@
 			}
 			else{
 				console.log("Login success");
-				let userID:number = msg['userID']				
+				let userID:number = msg['userID']
+				
+				sessionStorage.setItem('authorized', 'true');
+				window.location.href = '/home';
 			}
 		});
     }
@@ -48,9 +52,6 @@
 			<div class="field">
 				<input type="username" bind:value={username} id="username" placeholder="Username" />
 			</div>
-			<!--<div class="field">
-				<input type="email" bind:value={email} id="email" placeholder="Email" />
-			</div>-->
 			<div class="field">
 				<input type="password" bind:value={password} id="password" placeholder="Password" />
 			</div>

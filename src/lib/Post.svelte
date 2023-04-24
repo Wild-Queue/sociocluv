@@ -74,19 +74,19 @@
 
         <div id="views-wrap">
             <div id="views">
-                {numberOfViews} views, {dateOfPost}
+                {dateOfPost}
             </div>
         </div>
 
         <div id="activities">
             {#if !postIsLiked}
             <div on:click={likePost} on:keypress={likePost} class="activity-text" id="likes">
-                {numberOfLikes} Like
+                {numberOfLikes} ❤️
             </div>
             {/if}
             {#if postIsLiked}
             <div on:click={likePost} on:keypress={likePost} class="activity-text-liked">
-                {numberOfLikes} Like
+                {numberOfLikes} ❤️
             </div>
             {/if}
             <div on:click={commentPost} on:keypress={commentPost} class="activity-text" id="comments">

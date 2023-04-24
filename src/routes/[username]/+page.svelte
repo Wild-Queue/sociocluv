@@ -1,9 +1,8 @@
 <script lang="ts">
-	export let data;
 	const image_src = 'https://cdn-icons-png.flaticon.com/512/168/168726.png';
 	import Post from '$lib/Post.svelte';
 	import { page } from '$app/stores';
-	$page.params;
+	let alias_from_url = $page.params.username;
 	import { io } from 'socket.io-client';
 	
 	interface Post{
@@ -28,9 +27,8 @@
 	const socket = io('http://localhost:5050/');
  
 	//Request to database
-	console.log("123");
 	socket.emit('get-profile-posts', {alias: "aaa"});
-	console.log("1234");
+	
 
 	let allPosts: Post[] = [];
 	let posts:Post[] = [];
@@ -127,8 +125,7 @@
 		{#if editMode}
 			<div id="button-wrapper">
 				<button style="color:yellowgreen; margin:5px 15px 5px 5px;" on:click={saveProfile}
-					>Save</button
-				>
+					>Save</button>
 			</div>
 		{/if}
 	{/if}
@@ -150,15 +147,14 @@ line-height: 20px; padding:5px 5px 5px 5px;"
 		<span>{temp2}</span>
 	{/if}
 
-	<a href="/{data.username}">
-		<span>@{data.username}</span>
+	<a href="/{alias_from_url}">
+		<span>@{alias_from_url}</span>
 	</a>
 
 	{#if editMode}
 		<br />
 		<span bind:this={profileDescription} class="textarea" role="textbox" contenteditable
-			>{temp1}</span
-		>
+			>{temp1}</span>
 		<br />
 	{/if}
 	{#if !editMode}

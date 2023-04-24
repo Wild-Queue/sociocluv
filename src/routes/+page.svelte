@@ -1,9 +1,13 @@
 <script lang="ts">
     import RegisterForm from '$lib/RegisterForm.svelte';
     import LoginForm from '$lib/LoginForm.svelte';
-    
+    import { onMount } from 'svelte';
     
     let needRegistration:boolean = false;
+
+    onMount(() => {
+		sessionStorage.setItem('authorized', 'false');
+	});
 </script>
 
 
