@@ -9,7 +9,7 @@
 	let profileName:HTMLSpanElement;
 	let profileDescription:HTMLSpanElement;
 	let listElement:HTMLElement;
-	let items:string[] = ["Elon Mask", "Elon Mask", "Elon Mask", "Elon Mask", "Elon Mask"];
+	let items:string[] = ["Elon Musk", "Elon Musk", "Elon Musk", "Elon Musk", "Elon Musk"];
 	let newPost: HTMLSpanElement;
 
 	let temp1:string = "Elon Musk's Twitter profile is a reflection of his eclectic personality, his bold ideas, and his vision for the future of technology. At the top of his profile, you'll find a picture of his face, which is often accompanied by a witty or provocative comment.";
