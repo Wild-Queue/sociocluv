@@ -7,6 +7,13 @@
 
 	function loginUser() {
 		console.log("LoginFunction");
+		if(username == ""){
+			errorMessage = "Empty username!"
+		}else if(password == ""){
+			errorMessage = "Empty password!";
+		}
+
+		//Wrong password or username
     }
 
 	function switchToRegistration() {

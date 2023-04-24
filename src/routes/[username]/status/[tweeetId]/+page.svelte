@@ -1,5 +1,6 @@
 <script lang='ts'>
     import Post from "$lib/Post.svelte";
+    import Comments from "$lib/Comments.svelte";
 </script>
 
 
@@ -10,5 +11,6 @@
 
 
 <div>
-    <Post/>
+    <Post author="Arseniy"/>
+    <Comments/>
 </div>

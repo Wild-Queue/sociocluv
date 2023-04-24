@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { error } from "@sveltejs/kit";
+
 	let username: string = "";
 	let password: string = "";
 	let email: string = "";
@@ -8,6 +10,25 @@
 
 	function signUpUser() {
 		console.log("SignUpUser");
+		if(username == ""){
+			errorMessage = "Empty username!";
+		}else if(email == ""){
+			errorMessage = "Empty email!";
+		}else if(password == ""){
+			errorMessage = "Empty password!";
+		}else if(username.length < 6){
+			errorMessage = "Username length should be more than 6 symbols!";
+		}else if(!email.includes('@') || !email.includes('.')){
+			errorMessage = "Incorrect email type!";
+		}else if(password.length < 10){
+			errorMessage = "Password length should be more than 10 symbols!";
+		}else if(!(/[a-z]/.test(password)) || !(/[A-Z]/.test(password)) || !(/[0-9]/.test(password))){
+			errorMessage = "Too simple password! Password should contain at least one [A-Z], [a-z] and [0-9].";
+		}else{
+			errorMessage = "";
+		}
+		//Existing username! Username should be unique!
+		
 	}
 	function switchToLogin() {
 		console.log("CreateAccount");
