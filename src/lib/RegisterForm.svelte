@@ -1,5 +1,8 @@
 <script lang="ts">
 	import { error } from "@sveltejs/kit";
+	import { io } from 'socket.io-client';
+
+	const socket = io('http://localhost:5050/');
 
 	let username: string = "";
 	let password: string = "";
@@ -27,9 +30,26 @@
 		}else{
 			errorMessage = "";
 		}
+		console.log(username);
+		console.log(password);
+		console.log(email);
+		socket.emit('sign-up', {login: username, password: password, email: email})
 		//Existing username! Username should be unique!
-		
+		socket.on('sign-up-result', (msg) => {
+			if (msg['result'] === false && msg['userID'] === -1){
+				errorMessage = "User with such login already exist!";
+			}
+			else if (msg['result'] === false && msg['userID'] === -1){
+				errorMessage = "Insert into database went wrong, try again";
+			}
+			else{
+				console.log("Registration success");
+				let userID:number = msg['userID']				
+			}
+		});
 	}
+
+	
 	function switchToLogin() {
 		console.log("CreateAccount");
 		register = false;
