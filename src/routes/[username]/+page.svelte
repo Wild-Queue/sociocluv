@@ -26,7 +26,7 @@
 	console.log("123");
 	//Opening socket
 	const socket = io('http://localhost:5050/');
-
+ 
 	//Request to database
 	console.log("123");
 	socket.emit('get-profile-posts', {alias: "aaa"});
@@ -80,7 +80,8 @@
 	let profileName: HTMLSpanElement;
 	let profileDescription: HTMLSpanElement;
 	let listElement: HTMLElement;
-	let items: string[] = ['Elon Musk', 'Elon Musk', 'Elon ', 'Elon Musk', 'Elon Musk'];
+	let items: string[] = ["Elon Musk", "Elon Musk", "Elon Musk", "Elon Musk", "Elon Musk"];
+
 	let newPost: HTMLSpanElement;
 
 	let temp1: string =
