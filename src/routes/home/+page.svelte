@@ -29,7 +29,7 @@
 
 <div bind:this={listElement} >
 	{#each items as item}
-		<Post author={item}/>
+		<!-- <Post author={item}/> -->
 	{/each}
 </div>
 

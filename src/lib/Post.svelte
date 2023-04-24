@@ -1,12 +1,12 @@
 <script lang="ts">
-	export let author: string;
-	let text: string;
-    let image_src: string;
-
-    let numberOfViews: number = 4521;
-    let numberOfLikes: number = 125;
-    let numberOfComments: number = 342;
-    let dateOfPost: string = "12:51";
+	export let authorName: string;
+    export let authorImageSrc: string;
+    export let postText: string;
+	export let numberOfViews: number;
+    export let dateOfPost: string;
+    export let numberOfLikes: number;
+    export let numberOfComments: number;
+    
 
     let ownerOfPost:boolean = true;
     let postIsLiked:boolean = true;
@@ -23,7 +23,7 @@
     function editPost(){
         editMode = !editMode;
         if(!editMode){
-            text = newText.innerText;
+            postText = newText.innerText;
         }
     }
 
@@ -40,8 +40,8 @@
         console.log("Delete post");
     }
 
-    image_src = "https://cdn-icons-png.flaticon.com/512/168/168732.png"
-    text = "Немецкий концерн Rheinmetall откроет в Румынии, рядом с украинской границей, ремонтный и логистический хаб для техобслуживания вооружений, поставляемых Украине, в том числе, немецких танков Leopard и британских Challenger. Об этом сообщает Reuters со ссылкой на саму компанию";
+    //image_src = "https://cdn-icons-png.flaticon.com/512/168/168732.png"
+    //text = "Немецкий концерн Rheinmetall откроет в Румынии, рядом с украинской границей, ремонтный и логистический хаб для техобслуживания вооружений, поставляемых Украине, в том числе, немецких танков Leopard и британских Challenger. Об этом сообщает Reuters со ссылкой на саму компанию";
     //author = "DW на русском";
 </script>
 
@@ -52,21 +52,21 @@
     <div id="post-content-wrapper">
         <div id="photo-wrap">
             <div id="post-author-photo">
-                <img id="photo" src={image_src} alt="profile avatar" />
+                <img id="photo" src={authorImageSrc} alt="profile avatar" />
             </div>
             <div id="post-author">
-                <b>{author}</b>
+                <b>{authorName}</b>
             </div>
         </div>
 
         {#if !editMode}
         <div id="post-text">
-            {text}
+            {postText}
         </div>
         {/if}
         {#if editMode}
         <div id="comment-wrapper">
-            <span bind:this={newText} class="textarea" role="textbox" contenteditable>{text}</span>
+            <span bind:this={newText} class="textarea" role="textbox" contenteditable>{postText}</span>
         </div>
         {/if}
         

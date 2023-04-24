@@ -1,4 +1,7 @@
 <script lang="ts">
+	import { io } from 'socket.io-client';
+
+	const socket = io('http://localhost:5050/');
 	let username: string = "";
 	let password: string = "";
 	let errorMessage:string = "Handle value of errorMessage!";
@@ -11,9 +14,24 @@
 			errorMessage = "Empty username!"
 		}else if(password == ""){
 			errorMessage = "Empty password!";
+		}else{
+			errorMessage = "";
 		}
+		console.log(username);
+		console.log(password);
 
 		//Wrong password or username
+		socket.emit('sign-in', {login: username, password: password})
+		//Existing username! Username should be unique!
+		socket.on('sign-in-result', (msg) => {
+			if (msg['result'] == false){
+				errorMessage = "Incorrect password or login!";
+			}
+			else{
+				console.log("Login success");
+				let userID:number = msg['userID']				
+			}
+		});
     }
 
 	function switchToRegistration() {

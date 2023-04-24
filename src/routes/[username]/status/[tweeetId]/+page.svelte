@@ -11,6 +11,6 @@
 
 
 <div>
-    <Post author="Arseniy"/>
+    <!--<Post author="Arseniy"/>-->
     <Comments/>
 </div>
