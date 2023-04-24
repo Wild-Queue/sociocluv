@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { io } from 'socket.io-client';
 
-	const socket = io('http://localhost:5050/');
+	const socket = io('https://sociocluv-backend.onrender.com');
 	let username: string = "";
 	let password: string = "";
 	let errorMessage:string = "Handle value of errorMessage!";

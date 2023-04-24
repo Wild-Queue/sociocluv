@@ -25,7 +25,7 @@
 
 	console.log("123");
 	//Opening socket
-	const socket = io('http://localhost:5050/');
+	const socket = io('https://sociocluv-backend.onrender.com');
  
 	//Request to database
 	console.log("123");

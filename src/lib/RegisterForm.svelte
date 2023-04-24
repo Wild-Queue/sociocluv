@@ -2,7 +2,7 @@
 	import { error } from "@sveltejs/kit";
 	import { io } from 'socket.io-client';
 
-	const socket = io('http://localhost:5050/');
+	const socket = io('https://sociocluv-backend.onrender.com');
 
 	let username: string = "";
 	let password: string = "";
