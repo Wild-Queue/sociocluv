@@ -1,8 +1,8 @@
 <script lang="ts">
     import { onMount } from 'svelte';
 	import { io } from 'socket.io-client';
-    
-	const socket = io('http://localhost:5050/');
+    import { API_URL } from '$lib/env';
+	const socket = io(API_URL);
 	export let authorName: string;
     export let authorImageSrc: string;
     export let postText: string;

@@ -1,4 +1,5 @@
 - repo: https://github.com/pre-commit/mirrors-prettier
-  rev: ""
+  rev: v3.0.0-alpha.6
   hooks:
-    - id: prettier
+    - name: Format files
+      id: prettier

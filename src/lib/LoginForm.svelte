@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { io } from 'socket.io-client';
-
-	const socket = io('http://localhost:5050/');
+	import { API_URL } from '$lib/env';
+	const socket = io(API_URL);
 	let username: string = "";
 	let password: string = "";
 	let errorMessage:string = "Handle value of errorMessage!";

@@ -24,10 +24,11 @@
 	}
 
 	//Opening socket
-	const socket = io('http://localhost:5050/');
+	import { API_URL } from '$lib/env';
+	const socket = io(API_URL);
  
 	//Request to database
-	socket.emit('get-profile-posts', {alias: 'elonmusk'});
+	socket.emit('get-profile-posts', {alias: alias_from_url});
 	
 
 	let allPosts: Post[] = [];
@@ -85,7 +86,7 @@
 	let items: string[] = ["Elon Musk", "Elon Musk", "Elon Musk", "Elon Musk", "Elon Musk"];
 
 	let newPost: HTMLSpanElement;
-	let newPostText: string;
+	let newPostText: string = "";
 	
 	let profileDescriptionText: string = "";
 	let profileNameText: string = "";
@@ -111,8 +112,7 @@
 		if (msg['result'] == true){
 			let post_id:number = msg['postID']
 			console.log("Make post true")
-		}
-		else{
+		}else{
 			console.log("Make post false");
 		}
 	});
@@ -121,17 +121,27 @@
 		if(newPost.innerText != ""){
 			newPostText = newPost.innerText;
 			numberOfLoadedPosts = 0;
-			posts = [];
-			socket.emit('make-post', {	'authorAlias': alias_from_url,
+			let post:Post= {'authorID' : 0,
+							'authorName' : alias_from_url,
+							'initPosrID': -1,
+							'likesNum': 0,
+							'postID': -1,
+							'commentsNum': 0,
+							'imageLink' : profilePhotoLink,
+							'text': newPostText,
+							'time': '',
+							'viewNum': 0};
+
+			console.log(newPostText)
+			socket.emit('make-post', {	'authorAlias': alias_from_url.toString(),
 										'initPosrID': -1,
 										'likesNum': 0,
 										'commentsNum': 0,
 										'text': newPostText,
 										'viewNum': 0});
-			socket.emit('get-profile-posts', {alias: "elonmusk"});
+			posts = [post, ...posts];
 		}
 		newPostText = "";
-		//items = [`${newPost.innerText}`, ...items];
 	}
 
 	function loadMore() {

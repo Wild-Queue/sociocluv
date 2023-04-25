@@ -4,7 +4,8 @@
 	import { redirect } from '@sveltejs/kit';
 
 
-	const socket = io('http://localhost:5050/');
+	import { API_URL } from '$lib/env';
+	const socket = io(API_URL);
 
 	let username: string = "";
 	let password: string = "";
