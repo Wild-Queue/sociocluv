@@ -37,7 +37,7 @@
 			numberOfLoadedComments = 0;
 
 			let comment:Comment = {
-				authorPhotoLink: "",
+				authorPhotoLink: "https://images.theconversation.com/files/508626/original/file-20230207-21-k6uwib.jpg?ixlib=rb-1.1.0&q=45&auto=format&w=1200&h=1200.0&fit=crop",
                 authorName: alias_from_url,
                 commentText: commentText,
                 dateOfComment: "",

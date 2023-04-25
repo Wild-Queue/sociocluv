@@ -57,10 +57,13 @@
     });
 </script>
 
-
 <svelte:head>
-	<title>Single Tweet</title>
-	<meta name="description" content="tweet" />
+	<title>@{alias_from_url} tweet</title>
+	<meta name="description" content='View @{alias_from_url} tweet on sociocluv.'>
+	<meta property="og:title" content="@{alias_from_url} tweet on sociocluv.">
+	<meta property="og:type" content="website">
+	<meta property="og:image" content="https://www.allaboutbirds.org/news/wp-content/uploads/2020/07/STanager-Shapiro-ML.jpg">
+	<meta property="og:description" content='View @{alias_from_url} tweet on sociocluv.'>
 </svelte:head>
 
 {#if postExist}

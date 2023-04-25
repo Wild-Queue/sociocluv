@@ -4,7 +4,7 @@
 	const socket = io(API_URL);
 	let username: string = '';
 	let password: string = '';
-	let errorMessage: string = 'Handle value of errorMessage!';
+	let errorMessage: string = '';
 
 	export let login: boolean;
 
@@ -33,7 +33,8 @@
 
 				sessionStorage.setItem('authorized', 'true');
 				sessionStorage.setItem('userid', msg['userID'].toString());
-				window.location.href = '/home';
+
+				window.location.href = '/'+msg['userAlias'];
 			}
 		});
 	}
@@ -44,7 +45,6 @@
 	}
 </script>
 
-<!-- Имя, пароль, почта?, дата рождения-->
 <div id="registration">
 	<form>
 		<div id="content-wrapper">

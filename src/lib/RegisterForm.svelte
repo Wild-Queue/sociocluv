@@ -9,7 +9,7 @@
 	let username: string = '';
 	let password: string = '';
 	let email: string = '';
-	let errorMessage: string = 'Handle value of errorMessage!';
+	let errorMessage: string = '';
 	let authorized: boolean = false;
 
 	export let register: boolean;
@@ -48,7 +48,7 @@
 
 				sessionStorage.setItem('authorized', 'true');
 				sessionStorage.setItem('userid', msg['userID'].toString());
-				window.location.href = '/home';
+				window.location.href = '/'+msg['userAlias'];
 			}
 		});
 		errorMessage;

@@ -74,7 +74,11 @@
 
 <svelte:head>
 	<title>Home</title>
-	<meta name="description" content="home" />
+	<meta name="description" content="Home page on sociocluv" />
+	<meta property="og:title" content="Your home page on sociocluv.">
+	<meta property="og:type" content="website">
+	<meta property="og:image" content="https://www.allaboutbirds.org/news/wp-content/uploads/2020/07/STanager-Shapiro-ML.jpg">
+	<meta property="og:description" content='Home page on sociocluv'>
 </svelte:head>
 
 <h1>Explore the world of Sociocluv:</h1>

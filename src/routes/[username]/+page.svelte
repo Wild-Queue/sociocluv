@@ -69,7 +69,6 @@
 	let profileDescription: HTMLSpanElement;
 	let profilePhoto: HTMLSpanElement;
 	let listElement: HTMLElement;
-	let items: string[] = ['Elon Musk', 'Elon Musk', 'Elon Musk', 'Elon Musk', 'Elon Musk'];
 
 	let newPost: HTMLSpanElement;
 	let newPostText: string = '';
@@ -189,9 +188,9 @@
 </script>
 
 <svelte:head>
-	<title>@{alias_from_url} ({profileNameText})</title>
-	<meta name="description" content='Follow @{alias_from_url} ({profileNameText}) profile on sociocluv.'>
-	<meta property="og:title" content="@{alias_from_url} ({profileNameText}) profile on sociocluv.">
+	<title>@{alias_from_url} profile</title>
+	<meta name="description" content='Follow @{alias_from_url} profile on sociocluv.'>
+	<meta property="og:title" content="@{alias_from_url} profile on sociocluv.">
 	<meta property="og:type" content="website">
 	<meta property="og:image" content="{profilePhotoLink}">
 	<meta property="og:description" content="{profileDescriptionText}">
