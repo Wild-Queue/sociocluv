@@ -6,11 +6,7 @@
 	const socket = io(API_URL);
 	let alias_from_url = $page.params.username;
 	let tweetId_from_url = $page.params.tweeetId;
-	// <!-- export let authorPhotoLink: string;
-	//         export let authorName: string;
-	//         export let commentText: string;
-	//         export let dateOfComment: string; -->
-
+	
 	interface Comment {
 		authorPhotoLink: string;
 		authorName: string;
@@ -29,12 +25,13 @@
 	let comments: Comment[] = [];
 	let allComments: Comment[] = [];
 	let numberOfLoadedComments: number = 0;
+
 	let listElement: HTMLDivElement;
 	let newComment: HTMLSpanElement;
 
 	function postComment() {}
 
-	socket.emit('get-post-comments', { postID: +tweetId_from_url });
+	socket.emit('get-post-comments', { postID: parseInt(tweetId_from_url) });
 
 	socket.on('get-post-comments-result', (msg) => {
 		console.log(msg);
@@ -75,7 +72,7 @@
 
 		<div bind:this={listElement}>
 			{#each comments as comment}
-				<!-- <Comment authorPhotoLink={} authorName={} commentText={} dateOfComment={}/> -->
+				<Comment authorPhotoLink={comment["authorPhotoLink"]} authorName={comment["authorName"]} commentText={comment["commentText"]} dateOfComment={comment["dateOfComment"]}/>
 			{/each}
 		</div>
 
