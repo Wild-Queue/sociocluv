@@ -49,7 +49,7 @@
 				let userID:number = msg['userID']
 
 				sessionStorage.setItem('authorized', 'true');
-				sessionStorage.setItem('userid', msg['userID'].ToString());
+				sessionStorage.setItem('userid', msg['userID'].toString());
 				window.location.href = '/home';
 			}
 		});errorMessage

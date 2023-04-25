@@ -23,12 +23,11 @@
 		message: string;   
 	}
 
-	console.log("123");
 	//Opening socket
 	const socket = io('http://localhost:5050/');
  
 	//Request to database
-	socket.emit('get-profile-posts', {alias: "aaa"});
+	socket.emit('get-profile-posts', {alias: 'elonmusk'});
 	
 
 	let allPosts: Post[] = [];
@@ -51,7 +50,9 @@
 						text : msg['feed'][index]['text'],
 						time : msg['feed'][index]['time'],
 						viewNum : msg['feed'][index]['viewNum']};
-			console.log(post)
+			console.log("ВАШ ПОСТ АЙДИ СЕР:");
+			console.log(post.postID)
+
 			allPosts = [...allPosts, post];
 		}
 		for (var i:number = numberOfLoadedPosts; i < numberOfLoadedPosts+10; i++) {
@@ -79,19 +80,58 @@
 	let editMode: boolean = false;
 	let profileName: HTMLSpanElement;
 	let profileDescription: HTMLSpanElement;
+	let profilePhoto: HTMLSpanElement;
 	let listElement: HTMLElement;
 	let items: string[] = ["Elon Musk", "Elon Musk", "Elon Musk", "Elon Musk", "Elon Musk"];
 
 	let newPost: HTMLSpanElement;
-
-	let temp1: string =
-		"Elon Musk's Twitter profile is a reflection of his eclectic personality, his bold ideas, and his vision for the future of technology. At the top of his profile, you'll find a picture of his face, which is often accompanied by a witty or provocative comment.";
-	let temp2: string = 'Elon Musk';
+	let newPostText: string;
+	
+	let profileDescriptionText: string = "";
+	let profileNameText: string = "";
+	let profilePhotoLink:string = "https://i.pinimg.com/originals/80/b5/81/80b5813d8ad81a765ca47ebc59a65ac3.jpg";
 
 	let ownerOfProfile: boolean = true;
+	socket.on('get-profile-result', (msg) => {
+		if (msg['result'] == true){
+			profileDescriptionText = msg['data']['about'];
+			profileNameText = msg['data']['username'];
+			// msg['data']['alias']
+			profilePhotoLink = msg['data']['avatar'];
+			// msg['data']['email']
+		}
+		else{
+			console.log("Can't load profile info!");
+		}
+	});
+	
+	socket.emit('get-profile', {'alias': alias_from_url})
+
+	socket.on('make-post-result', (msg) => {
+		if (msg['result'] == true){
+			let post_id:number = msg['postID']
+			console.log("Make post true")
+		}
+		else{
+			console.log("Make post false");
+		}
+	});
 
 	function postPost() {
-		items = [`${newPost.innerText}`, ...items];
+		if(newPost.innerText != ""){
+			newPostText = newPost.innerText;
+			numberOfLoadedPosts = 0;
+			posts = [];
+			socket.emit('make-post', {	'authorAlias': alias_from_url,
+										'initPosrID': -1,
+										'likesNum': 0,
+										'commentsNum': 0,
+										'text': newPostText,
+										'viewNum': 0});
+			socket.emit('get-profile-posts', {alias: "elonmusk"});
+		}
+		newPostText = "";
+		//items = [`${newPost.innerText}`, ...items];
 	}
 
 	function loadMore() {
@@ -103,12 +143,45 @@
 		numberOfLoadedPosts += 10;
 	}
 
+	socket.on('edit-profile-result', (msg) => {
+		if (msg['result'] == true){
+			console.log('Profile Edited')
+		}
+		else{
+			console.log('Profile Not Edited')
+		}
+	});
+
 	function editProfile() {
 		editMode = !editMode;
 	}
-
+	function getProfile(){
+		socket.emit('get-profile', {'alias': alias_from_url});
+	}
 	function saveProfile() {
-		editMode = !editMode;
+		if(profileDescription.innerText === '' || profilePhoto.innerText === '' || profileName.innerText === ''){
+
+		}else{
+			editMode = !editMode;
+			if(!editMode){
+				profileDescriptionText = profileDescription.innerText;
+				profileNameText = profileName.innerText;
+				profilePhotoLink = profilePhoto.innerText;
+				console.log(profileNameText)
+				console.log(profileDescriptionText)
+
+				socket.emit('edit-profile', {	'about': profileDescriptionText,
+											'alias': alias_from_url,
+											'avatar': profilePhotoLink,
+											'username': profileNameText,
+				});
+				setTimeout(getProfile, 350);
+			}else{
+				console.log("Else")
+				console.log(profileNameText)
+				console.log(profileDescriptionText)
+			}
+		}
 	}
 </script>
 
@@ -123,30 +196,25 @@
 			<div id="button-wrapper">
 				<button style="color:red; margin:5px 15px 5px 5px;" on:click={editProfile}>Edit</button>
 			</div>
-		{/if}
-		{#if editMode}
+		{:else}
 			<div id="button-wrapper">
-				<button style="color:yellowgreen; margin:5px 15px 5px 5px;" on:click={saveProfile}
-					>Save</button>
+				<button style="color:yellowgreen; margin:5px 15px 5px 5px;" on:click={saveProfile}>Save</button>
 			</div>
 		{/if}
 	{/if}
-	<div id="post-author-photo" style="margin-top:30px;">
-		<img id="photo" src={image_src} alt="profile avatar" style="width:100%;" />
-	</div>
-
-	{#if editMode}
-		<span
-			bind:this={profileName}
-			style="width:100px; min-height: 10px;
-line-height: 20px; padding:5px 5px 5px 5px;"
-			class="textarea"
-			role="textbox"
-			contenteditable>{temp2}</span
-		>
-	{/if}
 	{#if !editMode}
-		<span>{temp2}</span>
+	<div id="post-author-photo" style="margin-top:30px;">
+		<img id="photo" src={profilePhotoLink} alt="Profile avatar" style="width:100%;" />
+	</div>
+	{:else}
+		<p>Enter the link to profile photo:</p>
+		<span bind:this={profilePhoto} style="max-height:20px;width:200px; min-height: 10px; line-height: 20px; padding:5px 5px 5px 5px;" class="textarea1" role="textbox" contenteditable>{profilePhotoLink}</span>
+	{/if}
+	
+	{#if editMode}
+		<span bind:this={profileName} style="width:100px; min-height: 10px; line-height: 20px; padding:5px 5px 5px 5px;" class="textarea1" role="textbox" contenteditable>{profileNameText}</span>
+	{:else}
+		<span>{profileNameText}</span>
 	{/if}
 
 	<a href="/{alias_from_url}">
@@ -155,12 +223,10 @@ line-height: 20px; padding:5px 5px 5px 5px;"
 
 	{#if editMode}
 		<br />
-		<span bind:this={profileDescription} class="textarea" role="textbox" contenteditable
-			>{temp1}</span>
+		<span bind:this={profileDescription} class="textarea1" role="textbox" contenteditable>{profileDescriptionText}</span>
 		<br />
-	{/if}
-	{#if !editMode}
-		<div id="profile-text">{temp1}</div>
+	{:else}
+		<div id="profile-text">{profileDescriptionText}</div>
 	{/if}
 </div>
 
@@ -168,7 +234,7 @@ line-height: 20px; padding:5px 5px 5px 5px;"
 	<div id="post">
 		<div id="post-content-wrapper">
 			<div id="comment-wrapper">
-				<span bind:this={newPost} class="textarea" role="textbox" contenteditable />
+				<span bind:this={newPost} class="textarea" role="textbox" contenteditable>{newPostText}</span>
 				<div id="button-wrapper">
 					<button on:click={postPost}>Post</button>
 				</div>
@@ -179,7 +245,7 @@ line-height: 20px; padding:5px 5px 5px 5px;"
 
 <div bind:this={listElement}>
 	{#each posts as post}
-		<Post authorName={post['authorName']}  authorImageSrc={post['imageLink']} postText={post['text']} numberOfViews={post['viewNum']} dateOfPost={post['time']} numberOfLikes={post['likesNum']} numberOfComments={post['commentsNum']} userId={post['authorID']} postId={post['postID']}/>
+		<Post userId={post['authorID']} postId={post['postID']} authorName={post['authorName']}  authorImageSrc={post['imageLink']} postText={post['text']} numberOfViews={post['viewNum']} dateOfPost={post['time']} numberOfLikes={post['likesNum']} numberOfComments={post['commentsNum']}/>
 	{/each}
 </div>
 
@@ -237,14 +303,28 @@ line-height: 20px; padding:5px 5px 5px 5px;"
 		background: #f1f1f1;
 		border: none;
 		border-radius: 10px;
-		padding-left: 10px;
-		padding-right: 10px;
-		padding-top: 10px;
-		padding-bottom: 10px;
+		padding:10px 10px 10px 10px;
 	}
 
 	.textarea[contenteditable]:empty::before {
 		content: 'Write what you think...';
+		color: gray;
+	}
+
+	.textarea1{
+		display: block;
+		width: 520px;
+		overflow: hidden;
+		resize: both;
+		min-height: 20px;
+		line-height: 25px;
+		background: #f1f1f1;
+		border: none;
+		border-radius: 10px;
+		padding:10px 10px 10px 10px;
+	}
+
+	.textarea1[contenteditable]:empty::before {
 		color: gray;
 	}
 

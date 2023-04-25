@@ -1,8 +1,12 @@
 <script lang="ts">
     import Comment from '$lib/Comment.svelte';
-	
+    import { page } from '$app/stores';
+	let alias_from_url = $page.params.username;
+    let tweetId_from_url = $page.params.tweeetId;
+
+
     let commentText:string;
-    let items1:string[] = ["Вот говно", "Опять они", "На нас напали","FWD заебал", "Nikita", "Bob", "Sam", "Kate", "Watter", "Kamble", "Nani"];
+    let items1:string[] = ["Good job man!", "Keep striving!", "Good luck!","Fuck FWD", "Here was Egor"];
     let listElement:HTMLDivElement;
     let newComment:HTMLSpanElement;
 
@@ -99,24 +103,7 @@ p strong {
     padding-bottom: 12px;
     
 }
-#sss {
-    
-    border: none;
-    background: #f1f1f1;
-    width:500px;
-    padding:0px;
-    max-height:none;
-    border-radius: 10px;
-    font-size:15px;
-    padding-left:20px;
-    padding-right:20px;
 
-}
-
-#sss:focus{
-    background-color: #ddd;
-    outline: none;
-}
 
 #photo-wrap{
     display: flex;

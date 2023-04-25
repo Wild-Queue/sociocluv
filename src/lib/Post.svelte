@@ -13,58 +13,100 @@
     export let userId: number;
     export let postId: number;
     
+    console.log("ВАШ СЕРЖ ИЗ ПОСТА АЙДИ:");
+    console.log(postId);
+
     let ownerOfPost:boolean = false;
     let postIsLiked:boolean = false;
     let editMode:boolean = false;
     let deletedPost:boolean = false;
 
     socket.on('check-like-result', (msg) => {
-        if (msg['result'] == true && msg['check'] == 0){
+        console.log("Check like",msg);
+        if (msg['result'] === true && msg['check'] === 0){
             postIsLiked = false;
         }
-        else if (msg['result'] == true && msg['check'] == 1){
+        else if (msg['result'] === true && msg['check'] === 1){
             postIsLiked = true;
         }
         else{
             console.log("Something went wrong");
         }
     });
+    
+    socket.on('delete-like-result', (msg) => {
+        console.log("Delete like",msg);
+    });
+
+    socket.on('add-like-result', (msg) => {
+        console.log("Add like", msg);
+    });
 
     onMount(() => {
         if(sessionStorage.getItem('userid')==userId.toString()){
             ownerOfPost = true;
         }
-        
     });
-    socket.emit('check-like', {userID: userId, postID: postId});
-
+    
+    
+    setTimeout(checkLike, 350);
+    //socket.emit('check-like', {userID: userId, postID: postId});
+    
     let newText : HTMLSpanElement;
 
+    function checkLike(){
+        socket.emit('check-like', {'userID': userId, 'postID': postId});
+    }
+
     function likePost(){
-        postIsLiked = !postIsLiked;
-        // Change in BD
-        socket.emit('check-like', {userID: userId, postID: postId});
-        console.log("Liked");
+        
+        if(postIsLiked == true){
+            numberOfLikes-=1;
+            socket.emit('delete-like', {'userID': userId, 'postID': postId})
+            postIsLiked = false;
+        }else{
+            postIsLiked = true;
+            socket.emit('add-like', {'userID': userId, 'postID': postId})
+            numberOfLikes+=1;
+        }
+        
+        socket.emit('edit-post', {  'likesNum' : numberOfLikes,
+                                    'postID' : postId,
+                                    'commentsNum' : numberOfComments,
+                                    'text': postText,
+                                    'viewNum': 0});
+
     }
 
     function editPost(){
         editMode = !editMode;
         if(!editMode){
             postText = newText.innerText;
+            socket.emit('edit-post', {  'likesNum' : numberOfLikes,
+                                    'postID' : postId,
+                                    'commentsNum' : numberOfComments,
+                                    'text': postText,
+                                    'viewNum': 0});
         }
     }
 
-    function sharePost(){
-        console.log("Share post");
-    }
 
     function commentPost(){
         console.log("Comment post");
-        //window.location.href = '/'+userID+;
+        // <a href="/elonmusk/status/4">Single Tweet</a>
+        // http://localhost:5173/aaa/status/11 authorName
+        // http://localhost:5173/1/status/10 userId
+        window.location.href = '/'+authorName+'/status/'+postId.toString();
     }
+
+    socket.on('delete-post-result', (msg) => {
+        console.log("Delete post", msg);
+    });
 
     function deletePost(){
         deletedPost = true;
+        console.log(postId);
+        socket.emit('delete-post', {'postID': postId});
         console.log("Delete post");
     }
 
@@ -118,9 +160,7 @@
             <div on:click={commentPost} on:keypress={commentPost} class="activity-text" id="comments">
                 {numberOfComments} Comments
             </div>
-            <div on:click={sharePost} on:keypress={sharePost} class="activity-text" id="share">
-                Share
-            </div>
+
             {#if ownerOfPost}
             {#if !editMode}
             <div on:click={editPost} on:keypress={editPost} class="activity-text" id="edit">
@@ -156,10 +196,7 @@
     background: #f1f1f1;
     border: none;
     border-radius: 10px;
-    padding-left:10px;
-    padding-right:10px;
-    padding-top:10px;
-    padding-bottom:10px;
+    padding: 10px 10px 10px 10px;
 }
 
 .textarea[contenteditable]:empty::before {
@@ -223,19 +260,16 @@
     background-color: red;
     overflow: hidden;
 }
-#post-text{
-    
-}
 #activities{
     display: flex;
     flex-direction: row;
 }
 .activity-text{
     user-select: none;
-        -moz-user-select: none;
-        -khtml-user-select: none;
-        -webkit-user-select: none;
-        -o-user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
     color: blue;
     padding-top:10px;
     padding-bottom:10px;

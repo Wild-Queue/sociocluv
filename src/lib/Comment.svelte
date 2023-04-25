@@ -5,7 +5,6 @@
     image_src = "https://cdn-icons-png.flaticon.com/512/168/168732.png"
     
     author = "DW на русском";
-    //text = "Немецкий концерн Rheinmetall откроет в Румынии, рядом с украинской границей, ремонтный и логистический хаб для техобслуживания вооружений, поставляемых Украине, в том числе, немецких танков Leopard и британских Challenger. Об этом сообщает Reuters со ссылкой на саму компанию";
 </script>
 
 <div id="post">
@@ -90,17 +89,6 @@
     background-color: red;
     overflow: hidden;
 }
-#post-text{
-    
-}
-#activities{
-    display: flex;
-    flex-direction: row;
-}
-.activity-text{
-    color: blue;
-    padding-top:15px;
-    margin-right:50px;
-    padding-bottom:10px;
-}
+
+
 </style>
