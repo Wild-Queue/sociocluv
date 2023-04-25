@@ -189,8 +189,12 @@
 </script>
 
 <svelte:head>
-	<title>Username</title>
-	<meta name="description" content="Username" />
+	<title>@{alias_from_url} ({profileNameText})</title>
+	<meta name="description" content='Follow @{alias_from_url} ({profileNameText}) profile on sociocluv.'>
+	<meta property="og:title" content="@{alias_from_url} ({profileNameText}) profile on sociocluv.">
+	<meta property="og:type" content="website">
+	<meta property="og:image" content="{profilePhotoLink}">
+	<meta property="og:description" content="{profileDescriptionText}">
 </svelte:head>
 
 <div id="top-container">

@@ -7,12 +7,12 @@
     let tweetId_from_url = $page.params.tweeetId;
 	import { API_URL } from '$lib/env';
 	const socket = io(API_URL);
-    
+
     let postExist:boolean = true;
 
     interface Post{
 		authorID : number;
-		authorName : string; 
+		authorName : string;
 		initPosrID: number;
 		likesNum: number;
 		postID: number;
@@ -23,7 +23,7 @@
 		viewNum: number;
 	}
     socket.emit('get-single-post', {postID: +tweetId_from_url});
-    
+
     let post:Post = {authorID : 0,
 						authorName : '',
 						initPosrID : 0,
@@ -34,12 +34,12 @@
 						text : '',
 						time : '',
 						viewNum : 0};
-    
+
     socket.on('get-post-comments-result', (msg) => {
         if (msg['result'] === true){
             post = {//msg['postData']
                 'authorID' : msg['postData']['authorID'],
-                'authorName' : msg['postData']['authorName'], 
+                'authorName' : msg['postData']['authorName'],
                 'initPosrID': msg['postData']['initPosrID'],
                 'likesNum': msg['postData']['likesNum'],
                 'postID': msg['postData']['postID'],
@@ -55,7 +55,6 @@
             postExist = false;
         }
     });
-
 </script>
 
 

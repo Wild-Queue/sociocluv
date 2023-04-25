@@ -3,10 +3,12 @@
 	import { page } from '$app/stores';
 	import { io } from 'socket.io-client';
 	import { API_URL } from '$lib/env';
+
+
 	const socket = io(API_URL);
-	let alias_from_url = $page.params.username;
-	let tweetId_from_url = $page.params.tweeetId;
-	
+	let alias_from_url:string = $page.params.username;
+	let tweetId_from_url:string = $page.params.tweeetId;
+
 	interface Comment {
 		authorPhotoLink: string;
 		authorName: string;
@@ -29,7 +31,28 @@
 	let listElement: HTMLDivElement;
 	let newComment: HTMLSpanElement;
 
-	function postComment() {}
+    function postComment() {
+		if (newComment.innerText != '') {
+			commentText = newComment.innerText;
+			numberOfLoadedComments = 0;
+
+			let comment:Comment = {
+				authorPhotoLink: "",
+                authorName: alias_from_url,
+                commentText: commentText,
+                dateOfComment: "",
+			};
+
+			console.log(commentText);
+			socket.emit('make-comment', {
+				authorAlias : alias_from_url.toString(),
+                postID : parseInt(tweetId_from_url),
+                text : commentText,
+			});
+			comments = [comment, ...comments];
+		}
+		commentText = '';
+	}
 
 	socket.emit('get-post-comments', { postID: parseInt(tweetId_from_url) });
 
@@ -57,7 +80,12 @@
 	});
 
 	function loadMore() {
-		socket.emit('get-post-comments', { postID: +tweetId_from_url });
+        for (var i: number = numberOfLoadedComments; i < numberOfLoadedComments + 10; i++) {
+			if (allComments.length > i) {
+				comments = [...comments, allComments[i]];
+			}
+		}
+		numberOfLoadedComments += 10;
 	}
 </script>
 
@@ -122,39 +150,7 @@
 		content: 'Write what you think...';
 		color: gray;
 	}
-	p strong {
-		display: block;
-	}
-	.width-machine {
-		/*   Sort of a magic number to add extra space for number spinner */
-		padding: 0 1rem;
-	}
-	.field {
-		padding-top: 12px;
-		padding-bottom: 12px;
-	}
 
-	#photo-wrap {
-		display: flex;
-		flex-direction: row;
-		justify-content: start;
-	}
-	#photo {
-		width: 100%;
-		height: 100%;
-	}
-	#views-wrap {
-		width: 200px;
-		margin-top: 7px;
-		margin-left: auto;
-		margin-right: 0em;
-		margin-bottom: 0px;
-	}
-	#views {
-		color: #363636;
-		font-size: 16px;
-		text-align: right;
-	}
 	#post {
 		box-shadow: rgba(50, 50, 93, 0.1) 0px -10px 100px -20px, rgba(0, 0, 0, 0.07) 0px 30px 60px 10px;
 		margin-top: 15px;
@@ -168,33 +164,6 @@
 		padding-left: 30px;
 		padding-right: 30px;
 		padding-top: 10px;
-		padding-bottom: 10px;
-	}
-	#post-author {
-		font-size: 20px;
-		padding-top: 15px;
-		padding-bottom: 15px;
-		margin-left: 10px;
-	}
-	#post-author-photo {
-		width: 44px;
-		height: 44px;
-		margin-top: 3px;
-		margin-bottom: 3px;
-		border-radius: 30px;
-		background-color: red;
-		overflow: hidden;
-	}
-	#post-text {
-	}
-	#activities {
-		display: flex;
-		flex-direction: row;
-	}
-	.activity-text {
-		color: blue;
-		padding-top: 15px;
-		margin-right: 50px;
 		padding-bottom: 10px;
 	}
 </style>

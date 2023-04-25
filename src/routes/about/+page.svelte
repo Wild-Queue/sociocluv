@@ -4,7 +4,7 @@
 
 <svelte:head>
 	<title>Home</title>
-	<meta name="description" content="home" />
+	<meta name="description" content="About page on sociocluv" />
 </svelte:head>
 <div id="content-flex">
 	<DeveloperCard
@@ -37,7 +37,7 @@
 	#description{
 		font-size:20px;
 		text-indent: 30px;
-		margin:auto; 
+		margin:auto;
 		width:300px;
 		margin-top:20px;
 		margin-bottom:20px;

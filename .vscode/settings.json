@@ -1,8 +1,17 @@
 {
-	"editor.defaultFormatter": "esbenp.prettier-vscode",
-	"editor.formatOnSave": true,
-	"editor.formatOnPaste": false,
-	"prettier.useEditorConfig": false,
-	"prettier.useTabs": false,
-	"prettier.configPath": ".prettierrc.json"
-}
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": false,  
+    "files.insertFinalNewline": true,
+    "files.trimTrailingWhitespace": true,
+    "eslint.enable": true,
+    "eslint.autoFixOnSave": true,
+    "prettier.tabWidth": 2,
+    "prettier.singleQuote": true,
+    "prettier.trailingComma": "es5",
+    "prettier.printWidth": 80,
+    "prettier.useTabs": false,
+    "prettier.proseWrap": "never",
+    "prettier.bracketSpacing": true,
+   }
+   
