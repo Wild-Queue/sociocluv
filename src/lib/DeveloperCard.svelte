@@ -4,10 +4,10 @@
 	export let role: string;
 </script>
 
-<div>
+<div id="content">
 	<img src={imgSrc} alt="developer" />
-	<div style="margin:auto;">{name}</div>
-	<div style="margin:auto;">{role}</div>
+	<div>{name}</div>
+	<div>{role}</div>
 </div>
 
 <style>
@@ -15,4 +15,8 @@
 		width: 300px;
 		border-radius: 30px;
 	}
+    #content{
+        display: flex;
+        flex-direction: column;
+    }
 </style>
