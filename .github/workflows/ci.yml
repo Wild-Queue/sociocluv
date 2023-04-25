@@ -1,8 +1,9 @@
 name: CI
 on:
   push:
-    branches: [ main ]
+    branches: [ main, connected-to-backend]
   pull_request:
+    branches: [ main, connected-to-backend]
 permissions:
   contents: read
 jobs:
