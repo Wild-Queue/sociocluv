@@ -43,7 +43,7 @@
                                 'commentText' : msg['feed'][index]['text'],
                                 'dateOfComment' : msg['feed'][index]['time']};
 			console.log("ВАШ ПОСТ АЙДИ СЕР:");
-            console.log("")
+            console.log(comment)
 
 			allComments = [...allComments, comment];
 		}

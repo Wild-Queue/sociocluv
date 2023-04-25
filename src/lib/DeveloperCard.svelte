@@ -6,12 +6,13 @@
 
 <div>
 <img src={imgSrc} alt="developer"/>
-<p>{name}</p>
-<p>{role}</p>
+<div>{name}</div>
+<div>{role}</div>
 </div>
 
 <style>
 img{
     width:300px;
+    border-radius:30px;
 }
 </style>
