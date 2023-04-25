@@ -19,7 +19,7 @@
             {#if showHeader}
             <a href="/elonmusk">Profile</a>
             <a href="/home">Feed</a>
-            <a href="/elonmusk/status/4">Single Tweet</a>
+            <a href="/elonmusk/status/1">Single Tweet</a>
             <a href="/about">About</a>
             {/if}
         </nav>

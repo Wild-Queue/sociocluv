@@ -13,7 +13,18 @@
 	// 	items = [...items, `${items[index]}`];
 	// }
 		//Request to database
-
+	interface Post{
+		authorID : number;
+		authorName : string; 
+		initPosrID: number;
+		likesNum: number;
+		postID: number;
+		commentsNum: number;
+		imageLink : string;
+		text: string;
+		time: string;
+		viewNum: number;
+	}
 
 
 		
@@ -22,10 +33,10 @@
 
 	let allPosts: Post[] = [];
 	let posts:Post[] = [];
-	let numberOfLoadedPosts = 0;
+	let numberOfLoadedPosts:number = 0;
 
 	//Waiting for response
-	socket.on('get-profile-posts-result', (msg) => {
+	socket.on('get-feed-result', (msg) => {
 		console.log(msg);
 		console.log(msg['feed']);
 		for (let index in msg['feed']) {
@@ -74,7 +85,7 @@
 
 
 <div bind:this={listElement} >
-	{#each items as item}
+	{#each posts as post}
 		<Post userId={post['authorID']} postId={post['postID']} authorName={post['authorName']}  authorImageSrc={post['imageLink']} postText={post['text']} numberOfViews={post['viewNum']} dateOfPost={post['time']} numberOfLikes={post['likesNum']} numberOfComments={post['commentsNum']}/>
 	{/each}
 </div>

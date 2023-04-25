@@ -1,24 +1,62 @@
 <script lang="ts">
     import Comment from '$lib/Comment.svelte';
     import { page } from '$app/stores';
+    import { io } from 'socket.io-client';
+	import { API_URL } from '$lib/env';
+	const socket = io(API_URL);
 	let alias_from_url = $page.params.username;
     let tweetId_from_url = $page.params.tweeetId;
+    // <!-- export let authorPhotoLink: string;
+    //         export let authorName: string;
+    //         export let commentText: string;
+    //         export let dateOfComment: string; -->
 
+    interface Comment{
+        authorPhotoLink: string;
+        authorName: string;
+        commentText: string;
+        dateOfComment: string; 
+    }
 
     let commentText:string;
     let items1:string[] = ["Good job man!", "Keep striving!", "Good luck!","Fuck FWD", "Here was Egor"];
+    let comments:Comment[] = []
+    let allComments:Comment[] = []
+	let numberOfLoadedComments:number = 0;
     let listElement:HTMLDivElement;
     let newComment:HTMLSpanElement;
 
     function postComment() {
-		console.log("Commented");
-        items1 = [`${newComment.innerText}`, ...items1, ];
+		
 
     }
-    function loadMore() {
-		for (var index = 0; index < 5; index++) {
-			items1 = [...items1, `${items1[index]}`];
+
+    socket.emit('get-post-comments', {'postID': +tweetId_from_url})
+
+    socket.on('get-post-comments-result', (msg) => {
+        console.log(msg);
+		console.log(msg['feed']);
+		for (let index in msg['feed']) {
+			let comment: Comment = {
+                                'authorPhotoLink' : msg['feed'][index]['avatar'],
+                                'authorName' : msg['feed'][index]['authorName'],
+                                'commentText' : msg['feed'][index]['text'],
+                                'dateOfComment' : msg['feed'][index]['time']};
+			console.log("ВАШ ПОСТ АЙДИ СЕР:");
+            console.log("")
+
+			allComments = [...allComments, comment];
 		}
+		for (var i:number = numberOfLoadedComments; i < numberOfLoadedComments+10; i++) {
+			if(allComments.length > i){
+				comments = [...comments, allComments[i],];
+			}
+		}
+		numberOfLoadedComments += 10;
+    });    
+
+    function loadMore() {
+		socket.emit('get-post-comments', {'postID': +tweetId_from_url})
 	}
 </script>
 
@@ -35,8 +73,8 @@
         </div>
         
         <div bind:this={listElement} >
-            {#each items1 as item}
-                <Comment text={item}/>
+            {#each comments as comment}
+                <!-- <Comment authorPhotoLink={} authorName={} commentText={} dateOfComment={}/> -->
             {/each}
         </div>
         

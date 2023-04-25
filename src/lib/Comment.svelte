@@ -1,10 +1,8 @@
 <script lang="ts">
-	let author: string;
-	export let text: string;
-    let image_src: string;
-    image_src = "https://cdn-icons-png.flaticon.com/512/168/168732.png"
-    
-    author = "DW на русском";
+	export let authorPhotoLink: string;
+    export let authorName: string;
+    export let commentText: string;
+    export let dateOfComment: string;
 </script>
 
 <div id="post">
@@ -13,20 +11,20 @@
     <div id="post-content-wrapper">
         <div id="photo-wrap">
             <div id="post-author-photo">
-                <img id="photo" src={image_src} alt="profile avatar" />
+                <img id="photo" src={authorPhotoLink} alt="profile avatar" />
             </div>
             <div id="post-author">
-                <b>{author}</b>
+                <b>{authorName}</b>
             </div>
         </div>
 
         <div id="post-text">
-            {text}
+            {commentText}
         </div>
 
         <div id="views-wrap">
             <div id="views">
-                12:50, Sunday
+                {dateOfComment}
             </div>
         </div>
         
