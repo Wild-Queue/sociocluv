@@ -7,6 +7,7 @@
 
     onMount(() => {
 		sessionStorage.setItem('authorized', 'false');
+        sessionStorage.setItem('userid', '');
 	});
 </script>
 

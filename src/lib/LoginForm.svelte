@@ -33,6 +33,7 @@
 				let userID:number = msg['userID']
 				
 				sessionStorage.setItem('authorized', 'true');
+				sessionStorage.setItem('userid', msg['userID'].ToString());
 				window.location.href = '/home';
 			}
 		});

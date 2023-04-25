@@ -43,11 +43,13 @@
 			}
 			else if (msg['result'] === false && msg['userID'] === -1){
 				errorMessage = "Insert into database went wrong, try again";
-			}else{
+			}
+			else{
 				console.log("Registration success");
 				let userID:number = msg['userID']
 
 				sessionStorage.setItem('authorized', 'true');
+				sessionStorage.setItem('userid', msg['userID'].ToString());
 				window.location.href = '/home';
 			}
 		});errorMessage

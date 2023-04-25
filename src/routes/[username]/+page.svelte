@@ -6,6 +6,7 @@
 	import { io } from 'socket.io-client';
 	
 	interface Post{
+		authorID : number;
 		authorName : string; 
 		initPosrID: number;
 		likesNum: number;
@@ -40,6 +41,7 @@
 		console.log(msg['feed']);
 		for (let index in msg['feed']) {
 			let post: Post = {
+						authorID : msg['feed'][index]['authorID'],
 						authorName : msg['feed'][index]['authorName'],
 						initPosrID : msg['feed'][index]['initPosrID'],
 						likesNum : msg['feed'][index]['likesNum'],
@@ -177,7 +179,7 @@ line-height: 20px; padding:5px 5px 5px 5px;"
 
 <div bind:this={listElement}>
 	{#each posts as post}
-		<Post authorName={post['authorName']}  authorImageSrc={post['imageLink']} postText={post['text']} numberOfViews={post['viewNum']} dateOfPost={post['time']} numberOfLikes={post['likesNum']} numberOfComments={post['commentsNum']}/>
+		<Post authorName={post['authorName']}  authorImageSrc={post['imageLink']} postText={post['text']} numberOfViews={post['viewNum']} dateOfPost={post['time']} numberOfLikes={post['likesNum']} numberOfComments={post['commentsNum']} userId={post['authorID']} postId={post['postID']}/>
 	{/each}
 </div>
 

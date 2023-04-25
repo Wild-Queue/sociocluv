@@ -1,4 +1,8 @@
 <script lang="ts">
+    import { onMount } from 'svelte';
+	import { io } from 'socket.io-client';
+    
+	const socket = io('http://localhost:5050/');
 	export let authorName: string;
     export let authorImageSrc: string;
     export let postText: string;
@@ -6,17 +10,40 @@
     export let dateOfPost: string;
     export let numberOfLikes: number;
     export let numberOfComments: number;
+    export let userId: number;
+    export let postId: number;
     
-
-    let ownerOfPost:boolean = true;
-    let postIsLiked:boolean = true;
+    let ownerOfPost:boolean = false;
+    let postIsLiked:boolean = false;
     let editMode:boolean = false;
     let deletedPost:boolean = false;
+
+    socket.on('check-like-result', (msg) => {
+        if (msg['result'] == true && msg['check'] == 0){
+            postIsLiked = false;
+        }
+        else if (msg['result'] == true && msg['check'] == 1){
+            postIsLiked = true;
+        }
+        else{
+            console.log("Something went wrong");
+        }
+    });
+
+    onMount(() => {
+        if(sessionStorage.getItem('userid')==userId.toString()){
+            ownerOfPost = true;
+        }
+        
+    });
+    socket.emit('check-like', {userID: userId, postID: postId});
 
     let newText : HTMLSpanElement;
 
     function likePost(){
         postIsLiked = !postIsLiked;
+        // Change in BD
+        socket.emit('check-like', {userID: userId, postID: postId});
         console.log("Liked");
     }
 
@@ -33,6 +60,7 @@
 
     function commentPost(){
         console.log("Comment post");
+        //window.location.href = '/'+userID+;
     }
 
     function deletePost(){
@@ -40,9 +68,7 @@
         console.log("Delete post");
     }
 
-    //image_src = "https://cdn-icons-png.flaticon.com/512/168/168732.png"
-    //text = "Немецкий концерн Rheinmetall откроет в Румынии, рядом с украинской границей, ремонтный и логистический хаб для техобслуживания вооружений, поставляемых Украине, в том числе, немецких танков Leopard и британских Challenger. Об этом сообщает Reuters со ссылкой на саму компанию";
-    //author = "DW на русском";
+    
 </script>
 
 {#if !deletedPost}
