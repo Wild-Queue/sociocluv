@@ -14,7 +14,7 @@ const config = {
 		adapter: adapter(),
 		prerender: {
 			crawl: true,
-			entries:  ['*'],
+			entries: ['*']
 		}
 	}
 };

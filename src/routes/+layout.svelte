@@ -1,8 +1,6 @@
 <script>
-    import Footer from "$lib/Footer.svelte";
-    import Header from "$lib/Header.svelte";
-
-	
+	import Footer from '$lib/Footer.svelte';
+	import Header from '$lib/Header.svelte';
 </script>
 
 <header>
@@ -14,17 +12,17 @@
 </main>
 
 <footer>
-    <Footer />
+	<Footer />
 </footer>
 
 <style>
 	main {
 		display: flex;
 		flex-direction: column;
-		
+
 		align-items: center;
 	}
-    header {
+	header {
 		background-color: #ffffff;
 		box-shadow: 0 0 100px -39px rgba(212, 214, 180, 1);
 		display: flex;

@@ -1,8 +1,8 @@
-<script lang='ts'>
-    import Post from "$lib/Post.svelte";
+<script lang="ts">
+	import Post from '$lib/Post.svelte';
 	import { io } from 'socket.io-client';
-	import { onMount, onDestroy } from "svelte";
-	let listElement:HTMLDivElement;
+	import { onMount, onDestroy } from 'svelte';
+	let listElement: HTMLDivElement;
 
 	import { API_URL } from '$lib/env';
 	const socket = io(API_URL);
@@ -12,28 +12,25 @@
 	// for (let index = 0; index < 20; index++) {
 	// 	items = [...items, `${items[index]}`];
 	// }
-		//Request to database
-	interface Post{
-		authorID : number;
-		authorName : string; 
+	//Request to database
+	interface Post {
+		authorID: number;
+		authorName: string;
 		initPosrID: number;
 		likesNum: number;
 		postID: number;
 		commentsNum: number;
-		imageLink : string;
+		imageLink: string;
 		text: string;
 		time: string;
 		viewNum: number;
 	}
 
-
-		
 	socket.emit('get-feed', {});
-	
 
 	let allPosts: Post[] = [];
-	let posts:Post[] = [];
-	let numberOfLoadedPosts:number = 0;
+	let posts: Post[] = [];
+	let numberOfLoadedPosts: number = 0;
 
 	//Waiting for response
 	socket.on('get-feed-result', (msg) => {
@@ -41,34 +38,34 @@
 		console.log(msg['feed']);
 		for (let index in msg['feed']) {
 			let post: Post = {
-						authorID : msg['feed'][index]['authorID'],
-						authorName : msg['feed'][index]['authorName'],
-						initPosrID : msg['feed'][index]['initPosrID'],
-						likesNum : msg['feed'][index]['likesNum'],
-						imageLink : msg['feed'][index]['imageLink'],
-						postID: msg['feed'][index]['postID'],
-						commentsNum : msg['feed'][index]['commentsNum'],
-						text : msg['feed'][index]['text'],
-						time : msg['feed'][index]['time'],
-						viewNum : msg['feed'][index]['viewNum']};
-			console.log("ВАШ ПОСТ АЙДИ СЕР:");
-			console.log(post.postID)
+				authorID: msg['feed'][index]['authorID'],
+				authorName: msg['feed'][index]['authorName'],
+				initPosrID: msg['feed'][index]['initPosrID'],
+				likesNum: msg['feed'][index]['likesNum'],
+				imageLink: msg['feed'][index]['imageLink'],
+				postID: msg['feed'][index]['postID'],
+				commentsNum: msg['feed'][index]['commentsNum'],
+				text: msg['feed'][index]['text'],
+				time: msg['feed'][index]['time'],
+				viewNum: msg['feed'][index]['viewNum']
+			};
+			console.log('ВАШ ПОСТ АЙДИ СЕР:');
+			console.log(post.postID);
 
 			allPosts = [...allPosts, post];
 		}
-		for (var i:number = numberOfLoadedPosts; i < numberOfLoadedPosts+10; i++) {
-			if(allPosts.length > i){
-				posts = [...posts, allPosts[i],];
+		for (var i: number = numberOfLoadedPosts; i < numberOfLoadedPosts + 10; i++) {
+			if (allPosts.length > i) {
+				posts = [...posts, allPosts[i]];
 			}
 		}
 		numberOfLoadedPosts += 10;
 	});
 
-
 	function loadMore() {
-		for (var i:number = numberOfLoadedPosts; i < numberOfLoadedPosts+10; i++) {
-			if(allPosts.length > i){
-				posts = [...posts, allPosts[i],];
+		for (var i: number = numberOfLoadedPosts; i < numberOfLoadedPosts + 10; i++) {
+			if (allPosts.length > i) {
+				posts = [...posts, allPosts[i]];
 			}
 		}
 		numberOfLoadedPosts += 10;
@@ -80,13 +77,21 @@
 	<meta name="description" content="home" />
 </svelte:head>
 
-<h1 >Explore the world of Sociocluv:</h1>
+<h1>Explore the world of Sociocluv:</h1>
 
-
-
-<div bind:this={listElement} >
+<div bind:this={listElement}>
 	{#each posts as post}
-		<Post userId={post['authorID']} postId={post['postID']} authorName={post['authorName']}  authorImageSrc={post['imageLink']} postText={post['text']} numberOfViews={post['viewNum']} dateOfPost={post['time']} numberOfLikes={post['likesNum']} numberOfComments={post['commentsNum']}/>
+		<Post
+			userId={post['authorID']}
+			postId={post['postID']}
+			authorName={post['authorName']}
+			authorImageSrc={post['imageLink']}
+			postText={post['text']}
+			numberOfViews={post['viewNum']}
+			dateOfPost={post['time']}
+			numberOfLikes={post['likesNum']}
+			numberOfComments={post['commentsNum']}
+		/>
 	{/each}
 </div>
 
@@ -95,8 +100,8 @@
 </div>
 
 <style>
-button {
-		font-size:medium;
+	button {
+		font-size: medium;
 		border: medium none;
 		background-image: none;
 		background: transparent;
@@ -104,9 +109,9 @@ button {
 		color: blue;
 		cursor: pointer;
 	}
-#button-wrapper{
-	inline-size: max-content;
-	
-	padding: 10px 0px 15px 0px;
-}
+	#button-wrapper {
+		inline-size: max-content;
+
+		padding: 10px 0px 15px 0px;
+	}
 </style>
